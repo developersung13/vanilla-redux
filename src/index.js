@@ -4,27 +4,28 @@ const cntText = document.getElementById("cnt");
 const incBtn = document.getElementById("inc");
 const decBtn = document.getElementById("dec");
 
+const INCREMENT = "INCREMENT";
+const DECREMENT = "DECREMENT";
+
 const onChange = () => {
   cntText.innerText = countStore.getState();
 };
 
 const incCntHandler = () => {
-  countStore.dispatch({ type: "INCREMENT" });
+  countStore.dispatch({ type: INCREMENT });
 };
 
 const decCntHandler = () => {
-  countStore.dispatch({ type: "DECREMENT" });
+  countStore.dispatch({ type: DECREMENT });
 };
 
 const countModifier = (cnt = 0, action) => {
   console.log(cnt, action);
   switch (action.type) {
-    case "INCREMENT":
+    case INCREMENT:
       return cnt + 1;
-      break;
-    case "DECREMENT":
+    case DECREMENT:
       return cnt - 1;
-      break;
     default:
       return cnt;
   }
