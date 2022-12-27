@@ -4,14 +4,16 @@ const cntText = document.getElementById("cnt");
 const incBtn = document.getElementById("inc");
 const decBtn = document.getElementById("dec");
 
+const onChange = () => {
+  cntText.innerText = countStore.getState();
+};
+
 const incCntHandler = () => {
   countStore.dispatch({ type: "INCREMENT" });
-  cntText.innerText = countStore.getState();
 };
 
 const decCntHandler = () => {
   countStore.dispatch({ type: "DECREMENT" });
-  cntText.innerText = countStore.getState();
 };
 
 const countModifier = (cnt = 0, action) => {
@@ -30,6 +32,7 @@ const countModifier = (cnt = 0, action) => {
 };
 
 const countStore = legacy_createStore(countModifier);
+countStore.subscribe(onChange);
 
 incBtn.addEventListener("click", incCntHandler);
 decBtn.addEventListener("click", decCntHandler);
