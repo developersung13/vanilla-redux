@@ -10,7 +10,7 @@ const DELETE_TODO = "DELETE_TODO";
 const toDoHandler = (toDos = [], action) => {
   switch (action.type) {
     case ADD_TODO:
-      return [];
+      return [...toDos, { text: action.text }];
     case DELETE_TODO:
       return [];
     default:
@@ -20,11 +20,13 @@ const toDoHandler = (toDos = [], action) => {
 
 const store = legacy_createStore(toDoHandler);
 
+store.subscribe(() => console.log(store.getState()));
+
 const onSubmit = (e) => {
   e.preventDefault();
   const toDo = input.value;
   input.value = "";
-  createToDo(toDo);
+  store.dispatch({ type: ADD_TODO, text: toDo });
 };
 
 form.addEventListener("submit", onSubmit);
