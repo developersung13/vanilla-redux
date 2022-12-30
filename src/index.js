@@ -1,39 +1,30 @@
 import { legacy_createStore } from "redux";
 
-const cntText = document.getElementById("cnt");
-const incBtn = document.getElementById("inc");
-const decBtn = document.getElementById("dec");
+const form = document.querySelector("form");
+const input = document.querySelector("input");
+const ul = document.querySelector("ul");
 
-const INCREMENT = "INCREMENT";
-const DECREMENT = "DECREMENT";
+const ADD_TODO = "ADD_TODO";
+const DELETE_TODO = "DELETE_TODO";
 
-const onChange = () => {
-  cntText.innerText = countStore.getState();
-};
-
-const incCntHandler = () => {
-  countStore.dispatch({ type: INCREMENT });
-};
-
-const decCntHandler = () => {
-  countStore.dispatch({ type: DECREMENT });
-};
-
-const countModifier = (cnt = 0, action) => {
-  console.log(cnt, action);
+const toDoHandler = (toDos = [], action) => {
   switch (action.type) {
-    case INCREMENT:
-      return cnt + 1;
-    case DECREMENT:
-      return cnt - 1;
+    case ADD_TODO:
+      return [];
+    case DELETE_TODO:
+      return [];
     default:
-      return cnt;
+      return toDos;
   }
-  return cnt;
 };
 
-const countStore = legacy_createStore(countModifier);
-countStore.subscribe(onChange);
+const store = legacy_createStore(toDoHandler);
 
-incBtn.addEventListener("click", incCntHandler);
-decBtn.addEventListener("click", decCntHandler);
+const onSubmit = (e) => {
+  e.preventDefault();
+  const toDo = input.value;
+  input.value = "";
+  createToDo(toDo);
+};
+
+form.addEventListener("submit", onSubmit);
