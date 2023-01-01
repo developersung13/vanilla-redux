@@ -21,14 +21,13 @@ const deleteToDo = (id) => {
 const toDoHandler = (toDos = [], action) => {
   switch (action.type) {
     case ADD_TODO:
-      return [{ text: action.text }, ...toDos];
+      return [{ text: action.text, id: Date.now() }, ...toDos];
     case DELETE_TODO:
-      return [];
+      return toDos.filter((toDo) => toDo.id !== action.id);
     default:
       return toDos;
   }
 };
-
 const store = legacy_createStore(toDoHandler);
 
 store.subscribe(() => console.log(store.getState()));
@@ -38,18 +37,18 @@ const dispatchAddToDo = (text) => {
 };
 
 const dispatchDeleteToDo = (e) => {
-  const id = e.target.parentNode.id;
+  const id = parseInt(e.target.parentNode.id);
   store.dispatch(deleteToDo(id));
 };
 
 const paintToDo = () => {
   const toDos = store.getState();
   ul.innerHTML = "";
-  toDos.map((toDo, idx) => {
+  toDos.forEach((toDo) => {
     const li = document.createElement("li");
     const delBtn = document.createElement("button");
     li.innerText = toDo.text;
-    li.id = idx;
+    li.id = toDo.id;
     delBtn.innerText = "DELETE";
     delBtn.style.marginLeft = "0.5rem";
     delBtn.addEventListener("click", dispatchDeleteToDo);
