@@ -21,9 +21,11 @@ const deleteToDo = (id) => {
 const toDoHandler = (toDos = [], action) => {
   switch (action.type) {
     case ADD_TODO:
-      return [{ text: action.text, id: Date.now() }, ...toDos];
+      const newToDoObj = { text: action.text, id: Date.now() };
+      return [newToDoObj, ...toDos];
     case DELETE_TODO:
-      return toDos.filter((toDo) => toDo.id !== action.id);
+      const cleaned = toDos.filter((toDo) => toDo.id !== action.id);
+      return cleaned;
     default:
       return toDos;
   }
