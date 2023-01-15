@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToDo } from "../store";
 
 function Home() {
   const [text, setText] = useState("");
 
   const toDos = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const onChangeHandler = (e) => setText(e.target.value);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     setText("");
+    dispatch(addToDo(text));
   };
 
   return (
